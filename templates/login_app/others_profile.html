@@ -1,0 +1,76 @@
+{% extends 'base.html'%}
+{% load crispy_forms_tags %}
+{% block body_block %}
+
+<html>
+<head>
+     <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<style>
+img {
+  max-width: 100%;
+  height: auto;
+}
+</style>
+</head>
+<body>
+<style>
+
+img {
+  border-radius: 50%;
+}
+</style>
+
+
+<div class="container">
+  <h2>Profile Details </h2>
+
+  <table class="table table-dark table-striped">
+
+      <tr>
+          {% if   profile.profile_image %}
+<img src="/media/{{ user.user.profile_image }}"  width="200" height="200">
+{% else %}
+<img src="/media/profile_images/bg.png" width="200" height="200">
+{% endif %}
+      </tr>
+      <tr>
+        <th>Fullname</th>
+       <td>{{ profile.full_name }}</td> </tr>
+      <tr>
+        <th>Username</th>
+        <td>{{ profile.username }}</td>
+      </tr>
+        <tr> <th>Email</th>
+          <td>{{ profile.user }}</td>
+        </tr>
+        <tr>   <th>Address</th>
+            <td>{{ profile.address_1 }}</td>
+        </tr>
+         <tr>  <th>City</th>
+               <td>{{ profile.city }}</td>
+         </tr>
+         <tr>  <th>Phone no :</th>
+           <td>+88 {{ profile.phone }}</td>
+         </tr>
+         <tr>  <th>Country</th>
+      <td>{{ profile.country }}</td>
+      </tr>
+
+
+  </table>
+    {% if profile.user == request.user %}
+ <a href="{% url 'login_app:profile' %}" class="btn btn-warning btn-md">
+        Change Profile !
+    </a>
+    {% endif %}
+</div>
+
+</body>
+</html>
+{% endblock %}

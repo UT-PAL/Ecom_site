@@ -1,0 +1,105 @@
+{% extends 'base.html' %}
+{% block body_block %}
+
+<div class="container mt-5">
+  <h2 class="text-center"><strong>Your Orders</strong></h2>
+  {% if  pending_order %}
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card mt-5" style="height:auto">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Pending Order</th>
+                <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for order in pending_order %}
+              <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ order.item.name }}</td>
+                <td>{{ order.quantity }}</td>
+                <td>&#2547; {{ order.item.price }}</td>
+                <td><a href="{% url 'payment:pay' %}">Pay Now</a>
+
+                </td>
+
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+
+        </div>
+      </div>
+    </div>
+                 {% else  %}
+
+      <div class="alert alert-danger" role="alert">
+  <h6><center>You don't have any pending order right now </center></h6>
+
+</div>
+  </div>
+
+    {% endif %}
+    {% if   completed_order %}
+    <div class="row">
+    <div class="col-md-12">
+      <div class="card mt-5" style="height:auto">
+        <div class="table-responsive">
+          <table class="table">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Completed Order</th>
+                 <th scope="col">Quantity</th>
+                <th scope="col">Price</th>
+                <th scope="col">Status</th>
+              </tr>
+            </thead>
+            <tbody>
+                {% for item in completed_order  %}
+
+                <tr>
+                <th scope="row">{{ forloop.counter }}</th>
+                <td>{{ item.item }}</td>
+                <td>{{ item.quantity }} X&#2547; {{ item.item.price }}</td>
+                <td>&#2547; {{ item.get_total }}</td>
+
+
+                <td>Paid </td>
+
+
+
+              </tr>
+
+            </tbody>
+               {% endfor %}
+          </table>
+
+        </div>
+      </div>
+    </div>
+      {% else  %}
+
+      <div class="alert alert-danger" role="alert">
+  <h6><center>You don't have any completed order right now </center></h6>
+
+</div>
+      <div class="alert alert-primary" role="alert">
+        <a href="{% url 'shop_app:home' %}"><center>Order right now..</center></a>
+      </div>
+
+      {% endif %}
+    <div class="col-md-12 my-5 text-center">
+      <a href="{% url 'shop_app:home' %}">Bact to Home</a>
+    </div>
+  </div>
+
+</div>
+{% endblock %}

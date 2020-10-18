@@ -1,0 +1,66 @@
+
+{% extends 'base.html' %}
+{% block body_block %}
+<div class="container my-5">
+
+    <div class="row">
+      <aside class="col-sm-5 border-right">
+        <article class="gallery-wrap">
+          <div class="img-big-wrap">
+            <div class="col-md-16">
+              <img src="/media/{{object.main_image}}" style="width:100%">
+            </div>
+          </div>
+        </article>
+      </aside>
+      <aside class="col-sm-7">
+        <article class="card-body p-5">
+          <h3 class="title mp-3">{{object.name}}</h3>
+          <p class="price-detail-wrap">
+            <span class="price h3 text-warning">
+              <span class="currency">BDT &#2547;</span><span class="num">{{object.price}}</span>
+            </span>
+          </p>
+          <dl class="item-property">
+            <dt>Description</dt>
+            <dd>
+              <p>{{object.detail_text|linebreaks}}</p>
+            </dd>
+          </dl>
+          <a href="{% url 'order:add_cart' pk=object.pk %}" class="btn btn-lg btn-outline-primary text-uppercase"> <i class="fas fa-shopping-cart"></i> Add to Cart</a>
+<div class="row">
+
+    <div class="col-md-9">
+
+
+ {% if user.user.is_fully_filled %}
+
+            <a href="{% url 'payment:pay' %}"><img src="https://img.icons8.com/wired/64/000000/tags.png"/></a>
+        <br>
+        Buy now
+
+  {% else %}
+            <div class="alert alert-info">
+                <p>Please fill up all the information to make payment</p>
+              <a href="{% url 'login_app:profile' %}"class="btn btn-primary btn-lg"> Complete Profile </a>
+
+            </div>
+
+            {% endif %}
+
+
+    </div>
+</div>
+        </article>
+      </aside>
+
+    <a href="{% url 'shop_app:review_detail' pk=object.pk %}" class="btn btn-primary btn-md"> {{ product.product.count }} Reviews</a>
+
+
+    </div>
+  </div>
+
+
+
+
+{% endblock %}

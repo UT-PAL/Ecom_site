@@ -1,0 +1,52 @@
+
+
+{% extends 'base.html' %}
+
+{% block body_block %}
+
+
+
+
+
+
+{% if not object_list %}
+<div class="container my-5">
+
+  <h2 class="my-5">Search results </h2>
+     <div class="alert alert-danger"> No Data found ! please try some other keywords .... </div>
+  {% else %}
+    <div class="row">
+    {% for product in object_list %}
+
+    <div class="col-md-4 >
+      <figure class="card card-product">
+        <div class="img-wrap">
+          <img src="/media/{{product.main_image}}" style="width:100%; height:300px;">
+        </div>
+        <figcaption class="info-wrap">
+          <h6 class="title"><a href="{% url 'shop_app:product_detail' pk=product.pk %}"> {{product.name}}</a> </h6>
+
+          {% if not product.product.count %}
+           <a href="{% url 'shop_app:review_detail' pk=product.pk %}" class="btn btn-danger btn-sm"> {{ product.product.count }} Reviews</a>
+{% else %}
+
+           <a href="{% url 'shop_app:review_detail' pk=product.pk %}" class="btn btn-success btn-sm"> {{ product.product.count }} Reviews</a>
+
+          {% endif %}
+
+          <div class="action-wrap">
+            <div class="price-wrap h5">
+              <span class="price-new">&#2547; {{product.price|floatformat:2}}</span>
+              <span class="price-old"><strike>&#2547; {{product.old_price|floatformat:2}}</strike></span>
+            </div>
+          </div>
+        </figcaption>
+      </figure>
+    </div>
+    {% endfor %}
+    {% endif %}
+      {% endblock %}
+
+</div>
+</div>
+

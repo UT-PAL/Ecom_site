@@ -1,0 +1,76 @@
+{% extends 'base.html' %}
+
+{% block body_block %}
+<div class="row">
+  <div class="col-sm-4">
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/skeleton-framework/1.0.10/skeleton.min.css" integrity="sha512-MW+I9sRbx5IkPOvJSj/cfZUqTw8cyuw4H/CqR5ybcQwXyj2ypp8i4eOZqC7uBlaJ6ydFayIHGIJp2jqM8O8Qug==" crossorigin="anonymous">
+<form method="POST"enctype="multipart/form-data">
+    <h5>{{product.name}}</h5><br>
+
+
+
+  </div>
+  <div class="col-sm-6">
+    <img src="/media/{{product.main_image}}" width="100%">
+  </div>
+    <div class="col-sm-4">
+  <p>
+    {{product.detail_text|linebreaks}}
+  </p></div>
+  <hr>
+
+  </div>
+ {% if not reviewed %}
+  <a href="{% url 'shop_app:reviewed_product' pk=product.pk %}">
+    <i class="fa fa-thumbs-o-up fa-2x" aria-hidden="true"></i>
+  </a>
+
+
+<div class="row">
+    <div class="col-md-9">
+        {% if not  request.user.user %}
+
+        Complete profile to write review ! <br>
+        <a href="{% url 'login_app:profile' %}" class="btn btn-warning btn-lg">Complete profile</a>
+{% else %}
+
+      <form method="POST">
+        {{ review_form }}
+
+        {% csrf_token %}<br>
+        <button type="submit" class="btn btn-primary btn-sm">Post</button>
+      </form>
+    </div>
+</div>
+
+{% endif %}
+
+      {% else %}
+  <a href="{% url 'shop_app:not_review' pk=product.pk %}">
+    <i class="fa fa-thumbs-o-down fa-2x" aria-hidden="true"></i>
+  </a>
+  {% endif %}
+
+<div class="row">
+    <div class="col-sm-6">
+      <hr>
+         {% if   not product.product.count %}
+        <div class="alert alert-info">
+            <p>No Reviews available !</p></div>
+         {% else %}
+      <h5>Reviews:</h5>
+
+      {% for review in product.product.all %}
+
+        <p>
+            <a href="{% url 'login_app:other_profile' p=review.user_id %}">{{review.user.user}} </a><br>
+            {{review.review}}<br>
+        {{review.review_date}}
+        </p>
+
+
+      {% endfor %}
+{% endif %}
+    </div>
+  </div>
+ {% endblock %}
